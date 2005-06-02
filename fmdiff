@@ -19,7 +19,7 @@ while [ $# != 0 ]; do
 				rightlabel=$1
 			else
 				echo "Too many labels"
-				exit 1
+				exit 2
 			fi
 		;;
 		-*)
@@ -33,7 +33,7 @@ while [ $# != 0 ]; do
 				rightfile=$1
 			else
 				echo "Too many files to diff"
-				exit 1
+				exit 2
 			fi
 	esac
 	shift
@@ -41,7 +41,7 @@ done
 
 if [ -z "$leftfile" ] || [ -z "$rightfile" ]; then
 	echo "Usage: $0 [options] leftfile rightfile"
-	exit 1
+	exit 2
 fi
 
 echo Starting FileMerge...
