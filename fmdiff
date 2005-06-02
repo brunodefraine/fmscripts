@@ -23,8 +23,8 @@ while [ $# != 0 ]; do
 			fi
 		;;
 		-*)
-			echo "Unknown option: $1"
-			exit 1
+			echo "Unknown option: $1" 1>&2
+			exit 2
 		;;
 		*)
 			if [ -z "$leftfile" ]; then
