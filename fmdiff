@@ -18,7 +18,7 @@ while [ $# != 0 ]; do
 			elif [ -z "$rightlabel" ]; then
 				rightlabel=$1
 			else
-				echo "Too many labels"
+				echo "Too many labels" 1>&2
 				exit 2
 			fi
 		;;
@@ -32,7 +32,7 @@ while [ $# != 0 ]; do
 			elif [ -z "$rightfile" ]; then
 				rightfile=$1
 			else
-				echo "Too many files to diff"
+				echo "Too many files to diff" 1>&2
 				exit 2
 			fi
 	esac
@@ -40,7 +40,7 @@ while [ $# != 0 ]; do
 done
 
 if [ -z "$leftfile" ] || [ -z "$rightfile" ]; then
-	echo "Usage: $0 [options] leftfile rightfile"
+	echo "Usage: $0 [options] leftfile rightfile" 1>&2
 	exit 2
 fi
 
