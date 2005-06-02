@@ -1,0 +1,50 @@
+#!/bin/sh
+
+#
+# Wrapper script to use FileMerge as a diff-cmd in Subversion
+#
+
+FM="/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge"
+
+while [ $# != 0 ]; do
+	case $1 in
+		-u)
+			unified=1
+		;;
+		-L)
+			shift
+			if [ -z "$leftlabel" ]; then
+				leftlabel=$1
+			elif [ -z "$rightlabel" ]; then
+				rightlabel=$1
+			else
+				echo "Too many labels"
+				exit 1
+			fi
+		;;
+		-*)
+			echo "Unknown option: $1"
+			exit 1
+		;;
+		*)
+			if [ -z "$leftfile" ]; then
+				leftfile=$1
+			elif [ -z "$rightfile" ]; then
+				rightfile=$1
+			else
+				echo "Too many files to diff"
+				exit 1
+			fi
+	esac
+	shift
+done
+
+if [ -z "$leftfile" ] || [ -z "$rightfile" ]; then
+	echo "Usage: $0 [options] leftfile rightfile"
+	exit 1
+fi
+
+echo Starting FileMerge...
+[ -n "$leftlabel"  ] && echo  Left: $leftlabel
+[ -n "$rightlabel" ] && echo Right: $rightlabel
+exec "$FM" -left "$leftfile" -right "$rightfile"
