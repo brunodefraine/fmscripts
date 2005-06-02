@@ -44,7 +44,7 @@ if [ -z "$leftfile" ] || [ -z "$rightfile" ]; then
 	exit 2
 fi
 
-echo Starting FileMerge...
-[ -n "$leftlabel"  ] && echo  Left: $leftlabel
-[ -n "$rightlabel" ] && echo Right: $rightlabel
+echo Starting FileMerge... 1>&2
+[ -n "$leftlabel"  ] && echo  Left: $leftlabel 1>&2
+[ -n "$rightlabel" ] && echo Right: $rightlabel 1>&2
 exec "$FM" -left "$leftfile" -right "$rightfile"
