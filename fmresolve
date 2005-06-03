@@ -5,10 +5,6 @@
 #
 
 FM="/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge"
-MATCHVAL="while(<STDIN>){ \
-	my @p = split(/: /,\$_,2); \
-	print \$p[1] if (\$p[0] eq \$ARGV[0]); \
-}"
 
 function lookup {
 	local info=$1
@@ -52,11 +48,8 @@ fi
 
 info=`svn info "$conflictfile"`
 lookup "$info" "Conflict Current Base File" && leftfile=$RETVAL
-#leftfile=`echo "$info" | perl -e "$MATCHVAL" "Conflict Current Base File"`
 lookup "$info" "Conflict Previous Working File" && rightfile=$RETVAL
-#rightfile=`echo "$info" | perl -e "$MATCHVAL" "Conflict Previous Working File"`
-lookup "$info" "Conflict Previous Working File" && ancestorfile=$RETVAL
-#ancestorfile=`echo "$info" | perl -e "$MATCHVAL" "Conflict Previous Working File"`
+lookup "$info" "Conflict Previous Base File" && ancestorfile=$RETVAL
 mergefile=$conflictfile
 
 if [ -z "$leftfile" ] || [ -z "$rightfile" ] || [ -z "$ancestorfile" ]; then
