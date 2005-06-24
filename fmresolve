@@ -50,7 +50,7 @@ info=`svn info "$conflictfile"`
 lookup "$info" "Conflict Current Base File" && leftfile=$RETVAL
 lookup "$info" "Conflict Previous Working File" && rightfile=$RETVAL
 lookup "$info" "Conflict Previous Base File" && ancestorfile=$RETVAL
-mergefile=$conflictfile
+mergefile="${PWD}/${conflictfile}"
 
 if [ -z "$leftfile" ] || [ -z "$rightfile" ] || [ -z "$ancestorfile" ]; then
 	echo "Can't obtain conflict info for $conflictfile" 1>&2
