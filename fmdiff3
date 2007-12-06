@@ -55,7 +55,7 @@ if [ -z "$merged" ]; then
 	exit 2
 fi
 
-mergefile=`tempfile`
+mergefile=`mktemp -t fmdiff3`
 
 echo Starting FileMerge... 1>&2
 [ -n "$ancestorlabel"  ] && echo Ancestor: $ancestorlabel 1>&2
