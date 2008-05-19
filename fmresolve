@@ -5,6 +5,8 @@
 #
 
 FM="/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge"
+FMDIFF="$(basename $0)"
+GN="/usr/local/bin/growlnotify"
 
 function lookup {
 	local info=$1
@@ -42,7 +44,7 @@ while [ $# != 0 ]; do
 done
 
 if [ -z "$conflictfile" ]; then
-	echo "Usage: $0 [options] conflictfile" 1>&2
+	echo "Usage: $FMDIFF [options] conflictfile" 1>&2
 	exit 2
 fi
 
@@ -58,6 +60,17 @@ if [ -z "$leftfile" ] || [ -z "$rightfile" ] || [ -z "$ancestorfile" ]; then
 	exit 2
 fi
 
+function labels {
+	echo Ancestor: $ancestorfile
+	echo     Left: $leftfile
+	echo    Right: $rightfile
+}
+
 echo Starting FileMerge... 1>&2
+labels 1>&2
+if [ -x "$GN" ]; then
+	labels | "$GN" -n "$FMDIFF" "Starting FileMerge"
+fi
+
 exec "$FM" -left "${filedir}/${leftfile}" -right "${filedir}/${rightfile}" \
 	-ancestor "${filedir}/${ancestorfile}" -merge "${filedir}/${mergefile}"
