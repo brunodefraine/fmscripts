@@ -1,5 +1,5 @@
 
-.PHONY=install
+.PHONY: install
 
 DESTDIR=/usr/local/bin
 
