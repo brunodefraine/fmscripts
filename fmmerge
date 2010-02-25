@@ -38,7 +38,7 @@ if [ -z "$ancestorfile" ] || [ -z "$leftfile" ] ||
 fi
 
 echo Starting FileMerge... 1>&2
-[ -x "$GN" ] && "$GN" -n "$FMDIFF" -m "$mergefile" "Starting FileMerge"
+[ -x "$GN" ] && "$GN" -a FileMerge -n "$FMDIFF" -m "$mergefile" "Starting FileMerge"
 
 exec "$FM" -left "$leftfile" -right "$rightfile" \
 	-ancestor "$ancestorfile" -merge "$mergefile"

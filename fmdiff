@@ -54,7 +54,7 @@ function labels {
 echo Starting FileMerge... 1>&2
 labels 1>&2
 if [ -x "$GN" ]; then
-	labels | "$GN" -n "$FMDIFF" "Starting FileMerge"
+	labels | "$GN" -a FileMerge -n "$FMDIFF" "Starting FileMerge"
 fi
 
 exec "$FM" -left "$leftfile" -right "$rightfile"
