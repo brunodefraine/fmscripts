@@ -46,9 +46,14 @@ if [ -z "$leftfile" ] || [ -z "$rightfile" ]; then
 	exit 2
 fi
 
+if svn info "$rightfile" &>/dev/null; then
+	mergefile="$rightfile"
+fi
+
 function labels {
 	[ -n "$leftlabel"  ] && echo  Left: $leftlabel
 	[ -n "$rightlabel" ] && echo Right: $rightlabel
+	[ -n "$mergefile" ]  && echo Merge: $mergefile
 }
 
 echo Starting FileMerge... 1>&2
@@ -57,4 +62,11 @@ if [ -x "$GN" ]; then
 	labels | "$GN" -a FileMerge -n "$FMDIFF" "Starting FileMerge"
 fi
 
-exec "$FM" -left "$leftfile" -right "$rightfile"
+if [ -n "$mergefile" ]; then
+	[[ "$mergefile" == */* ]] || mergefile="./$mergefile"
+	exec "$FM" -left "$leftfile" -right "$rightfile" \
+		-ancestor "$leftfile" -merge "$mergefile"
+else
+	exec "$FM" -left "$leftfile" -right "$rightfile"
+fi
+

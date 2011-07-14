@@ -49,7 +49,7 @@ while [ $# != 0 ]; do
 done
 
 if [ -z "$rightfile" ] || [ -z "$ancestorfile" ] || [ -z "$leftfile" ]; then
-	echo "Usage: $0 [options] myfile oldfile yourfile" 1>&2
+	echo "Usage: $FMDIFF [options] myfile oldfile yourfile" 1>&2
 	exit 2
 fi
 if [ -z "$merged" ]; then
@@ -57,7 +57,7 @@ if [ -z "$merged" ]; then
 	exit 2
 fi
 
-mergefile=`mktemp -t fmdiff3`
+mergefile=`mktemp -t $FMDIFF`
 
 function labels {
 	[ -n "$ancestorlabel"  ] && echo Ancestor: $ancestorlabel
@@ -71,6 +71,7 @@ if [ -x "$GN" ]; then
 	labels | "$GN" -a FileMerge -n "$FMDIFF" "Starting FileMerge"
 fi
 
+[[ "$mergefile" == */* ]] || mergefile="./$mergefile"
 "$FM" -left "$leftfile" -right "$rightfile" \
 	-ancestor "$ancestorfile" -merge "$mergefile"
 

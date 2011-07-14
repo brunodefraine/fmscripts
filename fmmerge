@@ -40,6 +40,7 @@ fi
 echo Starting FileMerge... 1>&2
 [ -x "$GN" ] && "$GN" -a FileMerge -n "$FMDIFF" -m "$mergefile" "Starting FileMerge"
 
+[[ "$mergefile" == */* ]] || mergefile="./$mergefile"
 exec "$FM" -left "$leftfile" -right "$rightfile" \
 	-ancestor "$ancestorfile" -merge "$mergefile"
 
