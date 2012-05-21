@@ -4,7 +4,7 @@
 # Wrapper script to use FileMerge to resolve Subversion conflicts
 #
 
-FM="/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge"
+FM="$(readlink $(which filemerge))"
 FMDIFF="$(basename $0)"
 GN="/usr/local/bin/growlnotify"
 
