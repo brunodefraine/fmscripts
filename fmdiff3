@@ -72,7 +72,17 @@ if [ -x "$GN" ]; then
 fi
 
 [[ "$mergefile" == */* ]] || mergefile="./$mergefile"
+tempfile=`mktemp -t $FMDIFF`
 "$FM" -left "$leftfile" -right "$rightfile" \
 	-ancestor "$ancestorfile" -merge "$mergefile"
 
-cat "$mergefile" && rm "$mergefile"
+if [ "$mergefile" -nt "$tempfile" ]; then
+	rm "$tempfile"
+	cat "$mergefile"
+	rm "$mergefile"
+	exit 0
+else
+	rm "$tempfile"
+	rm "$mergefile"
+	exit 1
+fi
