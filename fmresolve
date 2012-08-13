@@ -4,9 +4,16 @@
 # Wrapper script to use FileMerge to resolve Subversion conflicts
 #
 
-FM="$(readlink $(which filemerge))"
+FM="$(which filemerge)"
 FMDIFF="$(basename $0)"
 GN="/usr/local/bin/growlnotify"
+
+# Resolve symlinks leading to FileMerge
+while [ -L "$FM" ]; do
+	FM_DIR="$(dirname "$FM")"
+	FM="$(readlink "$FM")"
+	[[ $FM == /* ]] || FM="$FM_DIR/$FM"
+done
 
 function lookup {
 	local info=$1
