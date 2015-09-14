@@ -2,8 +2,9 @@
 .PHONY: install
 
 FMS= \
-	/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge \
-	/Applications/Xcode.app/Contents/Applications/FileMerge.app/Contents/MacOS/FileMerge
+	$(shell xcode-select -p)/../Applications/FileMerge.app/Contents/MacOS/FileMerge \
+	/Applications/Xcode.app/Contents/Applications/FileMerge.app/Contents/MacOS/FileMerge \
+	/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge
 
 DESTDIR=/usr/local/bin
 
