@@ -1,0 +1,3 @@
+License
+
+These scripts are released in the public domain. Feel free to use them for any purpose. All material is provided without warranty of any kind.
