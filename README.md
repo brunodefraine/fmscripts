@@ -31,7 +31,7 @@ Apple's [Developer Tools](http://developer.apple.com/technology/) for Mac OS X i
 
 Bash scripts for this task can be checked out from [this repository](https://github.com/brunodefraine/fmscripts) or downloaded as an [archive](https://github.com/brunodefraine/fmscripts/archive/20150915.tar.gz).
 
-Four scripts are provided: `fmdiff`, `fmdiff3`, `fmresolve` and `fmmerge`. They are described below. The location of FileMerge is determined through a symbolic link in the PATH environment. The included Makefile can create this link by checking a number of standard locations:
+Four scripts are provided: `fmdiff`, `fmdiff3`, `fmresolve` and `fmmerge`. They are described below. The location of FileMerge is determined through a symbolic link in the PATH environment. The included Makefile can create this link by checking a number of standard locations and checking `xcode-select -p`. To do this:
 
 ```
 $ make
