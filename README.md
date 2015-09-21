@@ -1,18 +1,5 @@
 # Using FileMerge as a diff command for Subversion (and Mercurial)
 
-* [Introduction](#introduction)
-* [Wrapper Scripts for FileMerge](#wrapper-scripts-for-filemerge)
- * [`fmdiff`](#fmdiff)
- * [`fmdiff3`](#fmdiff3)
- * [`fmresolve`](#fmresolve)
- * [`fmmerge` (Subversion 1.5)](#fmmerge-subversion-15)
-* [Permanently Using FileMerge with Subversion](#permanently-using-filemerge-with-subversion)
-* [Using FileMerge with Mercurial (experimental)](#using-filemerge-with-mercurial-experimental)
-  * [Viewing differences](#viewing-differences)
-  * [Merging](#merging)
-* [License](#license)
-* [Feedback?](#feedback)
-
 ## Introduction
 
 Subversion principally uses the [copy-modify-merge](http://svnbook.red-bean.com/en/1.5/svn.basic.vsn-models.html#svn.basic.vsn-models.copy-merge) versioning model to allow concurrent collaboration on the same set of files. For this to work well, it is crucial to have good tools to view and merge the differences between files.
@@ -29,17 +16,15 @@ Apple's [Developer Tools](http://developer.apple.com/technology/) for Mac OS X i
 
 ## Wrapper Scripts for FileMerge
 
-Bash scripts for this task can be checked out from [this repository](https://github.com/brunodefraine/fmscripts) or downloaded as an [archive](https://github.com/brunodefraine/fmscripts/archive/20150915.tar.gz).
+This projects provides Bash scripts for this task. Four scripts are provided: `fmdiff`, `fmdiff3`, `fmresolve` and `fmmerge`. They are described below. The location of FileMerge is determined through a symbolic link in the `PATH` environment. The included Makefile can create this link from the output of `xcode-select -p` or checking a number of standard locations. To do this:
 
-Four scripts are provided: `fmdiff`, `fmdiff3`, `fmresolve` and `fmmerge`. They are described below. The location of FileMerge is determined through a symbolic link in the PATH environment. The included Makefile can create this link by checking a number of standard locations and checking `xcode-select -p`. To do this:
-
-```
+```bash
 $ make
 ```
 
 Afterwards, you can do the following to install all of the scripts in `/usr/local/bin`:
 
-```
+```bash
 $ sudo make install
 ```
 
@@ -47,8 +32,8 @@ $ sudo make install
 
 `fmdiff` has an interface similar to `diff` and can be used with Subversion's `--diff-cmd` option. The canonical case is:
 
-```
-$ svn diff --diff-cmd fmdiff <other diff options, files or URLs>
+```bash
+$ svn diff --diff-cmd fmdiff [other diff options, files or URLs]
 ```
 
 Subversion will start FileMerge for each file with differences. It will wait for you to quit FileMerge (⌘-Q) to clean up and show the next file (if any). The script cannot show the labels from Subversion in FileMerge. As a resort, it will print these on the command line:
@@ -69,7 +54,7 @@ Unsurprisingly, `fmdiff3` is the `diff3`-equivalent of `fmdiff`. It can be used 
 
 `diff3` will merge the changes from two different versions that have a common ancestor. It is used by Subversion on an `update` (to merge changes from the repository with local changes) or a `merge` operation. Suppose that you have made local changes in a working copy and that meanwhile the repository was updated. To merge your local changes with those of the repository in FileMerge, do:
 
-```
+```bash
 $ svn update --diff3-cmd fmdiff3
 ```
 
@@ -81,13 +66,13 @@ $ svn update --diff3-cmd fmdiff3
 
 Whereas `fmdiff3` can be useful when you anticipate conflicts during an `update` or a `merge`, it's sometimes unpractical that you have to decide to use FileMerge _a priori_. When you did a standard `update` or `merge` using the built-in `diff3`, and you are faced with one or more files in conflicting state, `fmresolve` allows to use FileMerge _a posteriori_ to resolve the conflicts.
 
-```
+```bash
 $ fmresolve <conflictfile>
 ```
 
 This will start FileMerge with the appropriate versions and ancestor to reinitiate the merge. Non-conflicting changes are resolved automatically at startup; you can then resolve the remaining changes. After you save (⌘-S) and quit FileMerge (⌘-Q), you can signal to Subversion that the conflicts were resolved:
 
-```
+```bash
 $ svn resolved <conflictfile>
 ```
 
@@ -121,7 +106,7 @@ cmd.fmdiff =
 
 Afterwards, you can use the following command to inspect changes using FileMerge:
 
-```
+```bash
 $ hg fmdiff [other-diff-options]
 ```
 
@@ -139,7 +124,7 @@ fmmerge.args = $base $other $local $output
 
 Afterwards, whenever a merge conflict arises, you can invoke FileMerge on a conflicting file with the command:
 
-```
+```bash
 $ hg resolve -t fmmerge <conflictfile>
 ```
 
@@ -147,14 +132,6 @@ If you save the result of the merge in FileMerge, the conflict is marked as reso
 
 In this configuration, the internal merge mechanism is still used by default. We only invoke FileMerge on-demand, when attempting a re-merge with `hg resolve`. If you want Mercurial to always use FileMerge, leave out the line containing `internal:merge`.
 
-## License
+## Credits
 
-These scripts are released in the public domain. Feel free to use them for any purpose. All material is provided without warranty of any kind.
-
-## Feedback?
-
-Send comments and bugs to [Bruno De Fraine](http://bruno.defraine.net/).
-
-Last Modified: September 20, 2015
-
-</div>
+Written by Bruno De Fraine, with contributions from users.
